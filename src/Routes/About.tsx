@@ -1,10 +1,11 @@
 import React from 'react';
+import AvatarAnimation from "../Components/AvatarAnimation";
 
 const About: React.FC = () => {
 
     return (
         <>
-            About
+          <AvatarAnimation className="w-full h-screen z-10"/>
         </>
     );
 };

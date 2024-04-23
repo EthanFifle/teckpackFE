@@ -1,5 +1,5 @@
 class ApiService {
-  async uploadFile(formData: FormData): Promise<string> {
+  async uploadFile(formData: FormData): Promise<{ measurements: string }> {
     try {
       const response = await fetch('http://localhost:5000/upload', {
         method: 'POST',
@@ -11,8 +11,6 @@ class ApiService {
       }
 
       const jsonResponse = await response.json();
-
-      console.log(jsonResponse);
       if (jsonResponse.status === "success") {
         return jsonResponse.data;
       } else {
