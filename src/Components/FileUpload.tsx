@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { apiService } from '../Services/TeckPackBE';
+import { useFormContext } from '../Contexts/FormContext';
 
 const FileUpload: React.FC<{
-  onResponse: (measurements: { measurements: string }) => void,
   onLoadingChange: (loading: boolean) => void
-}> = ({ onResponse, onLoadingChange }) => {
-  const [file, setFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+}> = ({ onLoadingChange }) => {
+
+  const { file, setFile, previewUrl, setPreviewUrl, measurements, setMeasurements } = useFormContext();
   const [gender, setGender] = useState('');
   const [isLoading, setLoading] = useState(false);
 
@@ -16,7 +16,7 @@ const FileUpload: React.FC<{
     setFile(file);
     const url = URL.createObjectURL(file);
     setPreviewUrl(url);
-  }, []);
+  }, [setFile, setPreviewUrl]);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -51,8 +51,8 @@ const FileUpload: React.FC<{
     formData.append('gender', gender);
 
     try {
-      const measurements = await apiService.uploadFile(formData);
-      onResponse(measurements);  // Sending response back to parent
+      const response = await apiService.uploadFile(formData);
+      setMeasurements(response);
     } catch (error) {
       alert('Failed to upload file.');
     } finally {
@@ -71,7 +71,7 @@ const FileUpload: React.FC<{
             <p>Drop image here...</p> :
             (previewUrl ?
                 <div className="relative h-full">
-                  <img src={previewUrl} alt="Preview" className="max-w-full max-h-full"/>
+                  <img src={previewUrl} alt="Preview" className="max-w-full max-h-full rounded-md"/>
                   <button type="button" onClick={handleRemoveFile}
                           className="absolute top-0 right-0 px-1.5 bg-red-500 hover:bg-red-700 text-white font-semibold rounded-md cursor-pointer">
                     X

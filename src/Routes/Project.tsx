@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
+import { useFormContext } from '../Contexts/FormContext';
 import FileUpload from "../Components/FileUpload";
 import LogoAnimation from "../Components/LogoAnimation";
 import VisualAid from "../Images/Visual-Aid.png"
@@ -35,24 +36,32 @@ const measurementStyles: MeasurementStyles = {
 
 const Project: React.FC = () => {
 
+  const { measurements } = useFormContext()
   const [loading, setLoading] = useState(false);
-  const [measurements, setMeasurements] = useState<Record<string, number>>({});
+  const [record, setRecord] = useState<Record<string, number>>({});
 
-  const handleResponse = (responseObj: { measurements: string }) => {
-    try {
+  useEffect(() => {
 
-      const measurementsObj = JSON.parse(responseObj.measurements);
-      const roundedMeasurements = Object.keys(measurementsObj).reduce((acc, key) => {
-        acc[key] = Math.round(measurementsObj[key] * 10) / 10; // Round to the nearest decimal place
-        return acc;
-      }, {} as Record<string, number>);
+    if (measurements) {
+      const formatMeasurements = (responseObj: { measurements: string }) => {
+        try {
+          const measurementsObj = JSON.parse(responseObj.measurements);
+          const roundedMeasurements = Object.keys(measurementsObj).reduce((acc, key) => {
+            acc[key] = Math.round(measurementsObj[key] * 10) / 10; // Round to the nearest decimal place
+            return acc;
+          }, {} as Record<string, number>);
 
-      setMeasurements(roundedMeasurements);
-    } catch (error) {
-      console.error('Error parsing measurements:', error);
-      setMeasurements({});
+          setRecord(roundedMeasurements);
+        } catch (error) {
+          console.error('Error parsing measurements:', error);
+          setRecord({});
+        }
+      };
+
+      formatMeasurements(measurements);
     }
-  };
+
+  }, [measurements]);
 
   const handleLoadingChange = (loading: boolean) => {
     setLoading(loading);
@@ -63,17 +72,17 @@ const Project: React.FC = () => {
 
       <div className="text-center px-5 w-full md:w-auto md:px-0">
         <h1 className="mb-4">Project</h1>
-        <FileUpload onResponse={handleResponse} onLoadingChange={handleLoadingChange} />
+        <FileUpload onLoadingChange={handleLoadingChange} />
       </div>
 
       {loading ? <LogoAnimation className="w-28 h-28"/> : null}
 
-      {Object.keys(measurements).length > 0 && (
+      {Object.keys(record).length > 0 && (
         <div className="flex flex-col sm:flex-row gap-2 p-5 sm:p-2">
           <img src={VisualAid} alt="Mesh Graph" className="h-[400px] sm:h-[600px]"/>
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 h-fit">
             <h2 className="sm:col-span-2 text-center">Your Measurements:</h2>
-            {Object.entries(measurements).map(([key, value]) => {
+            {Object.entries(record).map(([key, value]) => {
               const { customStyles, displayName } = measurementStyles[key] || {};
               return (
                 <p key={key}
