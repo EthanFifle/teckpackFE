@@ -64,7 +64,7 @@ const FileUpload: React.FC<{
   return (
     <form onSubmit={handleSubmit} className="p-5 border border-gray-300 rounded-md shadow-sm">
       <div {...getRootProps()}
-           className="flex flex-col md:w-96 md:h-36 justify-center items-center p-2 border-2 border-dashed rounded-md border-gray-300 text-gray-700 cursor-pointer">
+           className="flex flex-col md:w-96 md:h-72 justify-center items-center p-2 border-2 border-dashed rounded-md border-gray-300 text-gray-700 cursor-pointer">
         <input {...getInputProps()} />
         {
           isDragActive ?

@@ -6,7 +6,6 @@ import NavBar from "./Components/NavBar";
 import About from './Routes/About';
 import Project from './Routes/Project';
 import Research from './Routes/Research';
-import GetStarted from "./Routes/GetStarted";
 
 function App() {
     return (
@@ -18,7 +17,6 @@ function App() {
                         <Route path="/about" element={<About/>}/>
                         <Route path="/project" element={<Project/>}/>
                         <Route path="/research" element={<Research/>}/>
-                        <Route path="/getstarted" element={<GetStarted/>}/>
                     </Routes>
                 </div>
             </div>

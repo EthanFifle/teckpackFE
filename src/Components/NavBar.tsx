@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {NavLink, Link} from 'react-router-dom';
-import TechPackLogo from '../Images/TechPackLogo.png';
 import LogoAnimation from "./LogoAnimation";
 
 const NavBar: React.FC = () => {
@@ -16,13 +15,13 @@ const NavBar: React.FC = () => {
         <div className="flex items-center space-x-2 rtl:space-x-reverse">
           <LogoAnimation className="w-12 h-12"/>
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-                        TechPack
+                        Techpack
                     </span>
         </div>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <Link to="/getstarted"
+          <Link to="https://github.com/EthanFifle/techpack"
                 className="text-white bg-blue-700 hover:bg-blue-800 h-fit focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            Get started
+            View Github
           </Link>
           <button onClick={toggleMenu} data-collapse-toggle="navbar-cta" type="button"
                   className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
